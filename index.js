@@ -2,14 +2,14 @@ const { ApolloServer } = require('apollo-server');
 
 const mongoose = require('mongoose');
 
-const Post = require('./models/Post');
 const typeDefs = require('./graphql/typeDefs');
 const MONGO_DB = require('./config').mongoDB;
 const resolvers = require('./graphql/Resolves');
 
 const server = new ApolloServer({
     typeDefs,
-    resolvers
+    resolvers,
+    context: ({ req, res }) => ({ req, res })
 });
 
 mongoose.connect(MONGO_DB, {

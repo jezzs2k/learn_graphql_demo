@@ -5,7 +5,21 @@ module.exports = gql`
         id: ID!
         username: String!
         body: String!
+        user: String!
         createdAt: String!
+        likes: [Like!]
+        comments: [Comment!]
+    }
+    type Comment{
+        id: ID!
+        createdAt: String!
+        username: String!
+        body: String!
+    }
+    type Like{
+        id: ID!
+        createdAt: String!
+        username: String!
     }
     type User {
         id: ID!
@@ -24,11 +38,19 @@ module.exports = gql`
         username: String!
         password: String!
     }
+    input PostParams {
+        postId: String!
+    }
+    input CreateParams {
+        body: String!
+    }
     type Query {
         getPosts: [Post]
+        getPost(post: PostParams): Post
     }
     type Mutation {
         register(registerInput: RegisterInput): User
         login(loginInput: LoginInput): User
+        createPost(post: CreateParams): Post
     }
 `;
