@@ -1,6 +1,19 @@
 const gql = require('graphql-tag');
 
 module.exports = gql`
+    type CommentItem{
+        id: ID!
+        createdAt: String!
+        username: String!
+        body: String!
+        user: String!
+    }
+    type Like{
+        id: ID!
+        createdAt: String!
+        username: String!
+        user: String!
+    }
     type Post {
         id: ID!
         username: String!
@@ -8,18 +21,9 @@ module.exports = gql`
         user: String!
         createdAt: String!
         likes: [Like!]
-        comments: [Comment!]
-    }
-    type Comment{
-        id: ID!
-        createdAt: String!
-        username: String!
-        body: String!
-    }
-    type Like{
-        id: ID!
-        createdAt: String!
-        username: String!
+        comments: [CommentItem!]
+        likeCount: Int!
+        commentCount: Int!
     }
     type User {
         id: ID!
@@ -44,6 +48,9 @@ module.exports = gql`
     input CreateParams {
         body: String!
     }
+    type ResponseDeletePost {
+            message: String
+    }
     type Query {
         getPosts: [Post]
         getPost(post: PostParams): Post
@@ -52,5 +59,12 @@ module.exports = gql`
         register(registerInput: RegisterInput): User
         login(loginInput: LoginInput): User
         createPost(post: CreateParams): Post
+        likePost(postId: String): Post
+        deletePost(postId: String): ResponseDeletePost
+        createComment(postId: String, body: String): Post
+        deleteComment(postId: String, commentId: String): Post
+    }
+    type Subscription {
+        newPost: Post!
     }
 `;
