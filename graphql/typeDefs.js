@@ -25,6 +25,16 @@ module.exports = gql`
         likeCount: Int!
         commentCount: Int!
     }
+    type News {
+        image: String!
+        title: String!
+        date: String!
+        content: String!
+        detail: String!
+        newId: String!
+        createdAt: String!
+        _id: ID!
+    }
     type User {
         id: ID!
         email: String!
@@ -42,6 +52,14 @@ module.exports = gql`
         username: String!
         password: String!
     }
+    input NewsInput {
+        image: String!
+        title: String!
+        date: String!
+        content: String!
+        detail: String!
+        newId: String!
+    }
     input PostParams {
         postId: String!
     }
@@ -54,6 +72,7 @@ module.exports = gql`
     type Query {
         getPosts: [Post]
         getPost(post: PostParams): Post
+        getNews(pageIndex: String!): [News!]
     }
     type Mutation {
         register(registerInput: RegisterInput): User
@@ -63,8 +82,9 @@ module.exports = gql`
         deletePost(postId: String): ResponseDeletePost
         createComment(postId: String, body: String): Post
         deleteComment(postId: String, commentId: String): Post
+        createNews(news: [NewsInput!]): ResponseDeletePost
     }
     type Subscription {
-        newPost: Post!
+        newPost: [News!]
     }
 `;

@@ -30,9 +30,9 @@ module.exports = {
                 const user = checkAuth(context);
                 const newPost = new Post({ body, user: user.id, username: user.username });
 
-                context.pubsub.publish('NEW_POST', {
-                    newPost,
-                });
+                // context.pubsub.publish('NEW_POST', {
+                //     newPost,
+                // });
 
 
                 return await newPost.save();
@@ -94,9 +94,9 @@ module.exports = {
             return post;
         }
     },
-    Subscription: {
-        newPost: {
-            subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('NEW_POST')
-        }
-    }
+    // Subscription: {
+    //     newPost: {
+    //         subscribe: (_, __, { pubsub }) => pubsub.asyncIterator('NEW_POST')
+    //     }
+    // }
 };
