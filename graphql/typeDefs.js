@@ -100,6 +100,7 @@ module.exports = gql`
         getPost(post: PostParams): Post
         getNews(pageIndex: String!): [News!]
         getCa: Ca!
+        wakeupDynoHeroku: String!
     }
     type Mutation {
         register(registerInput: RegisterInput): User

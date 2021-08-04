@@ -1,30 +1,30 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const {UserInputError} = require('apollo-server');
+const { UserInputError } = require('apollo-server');
 
-const {validateRegisterForm, validateLoginInput} = require('../../utils/validateRegisterForm');
+const { validateRegisterForm, validateLoginInput } = require('../../utils/validateRegisterForm');
 const User = require('../../models/User');
-const {SECRET_KEY} = require('../../config');
+const config = require('config');
 
-function genarateToken(user){
+function genarateToken(user) {
     return jwt.sign({
         id: user.id,
         email: user.email,
         username: user.username
-    }, SECRET_KEY, {expiresIn: '1h'})
+    }, config.Customer.secret.key, { expiresIn: '1h' })
 }
 
 module.exports = {
     Mutation: {
-        async login(_, {loginInput: {username, password}}) {
-             //validate login inputs
-            const {valid, errors} = validateLoginInput({username, password});
+        async login(_, { loginInput: { username, password } }) {
+            //validate login inputs
+            const { valid, errors } = validateLoginInput({ username, password });
 
             if (!valid) {
-                throw new UserInputError('Errors', {errors});
+                throw new UserInputError('Errors', { errors });
             }
 
-            const user = await User.findOne({username});
+            const user = await User.findOne({ username });
 
             if (!user) {
                 errors.general = 'User not found';
@@ -49,17 +49,17 @@ module.exports = {
                 token: genarateToken(user),
             }
         },
-        async register(_, {registerInput: {username, email, password, comfirmPassword}}, context, info) {
+        async register(_, { registerInput: { username, email, password, comfirmPassword } }, context, info) {
             //validate register inputs
-            const {valid, errors} = validateRegisterForm({username, email, password, comfirmPassword});
+            const { valid, errors } = validateRegisterForm({ username, email, password, comfirmPassword });
 
             if (!valid) {
-                throw new UserInputError('Errors', {errors});
+                throw new UserInputError('Errors', { errors });
             }
 
             password = await bcrypt.hash(password, 12);
 
-            const user = await User.findOne({username});
+            const user = await User.findOne({ username });
 
             if (user) {
                 throw new UserInputError('This username is taken', {

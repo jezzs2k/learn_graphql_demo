@@ -3,6 +3,7 @@ const userResol = require('./users');
 const commentResol = require('./comments');
 const newsResol = require('./news');
 const caResol = require('./infoCa');
+const wakeupDynoResol = require('./wakeupDyno');
 
 module.exports = {
     Post: {
@@ -12,7 +13,8 @@ module.exports = {
     Query: {
         ...postResol.Query,
         ...newsResol.Query,
-        ...caResol.Query
+        ...caResol.Query,
+        ...wakeupDynoResol.Query
     },
     Mutation: {
         ...userResol.Mutation,
