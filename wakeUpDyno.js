@@ -1,23 +1,23 @@
 const fetch = require("node-fetch");
-const crawler = require('./crawler');
 
-const wakeUpDyno = (url, interval) => {
+const wakeUpDyno = (interval) => {
     try {
         const milliseconds = interval * 60000;
-
-        // console.log('Time', new Date().getMinutes())
+        console.log('Time', new Date().getMinutes())
 
         setTimeout(() => {
-            // console.log('Time', new Date().getMinutes())
+            console.log('Time', new Date().getMinutes())
+            fetch('https://crawl-new-api.herokuapp.com/', {
+                method: 'post',
+                body: JSON.stringify({
+                    "query": "query{wakeupDynoHeroku}"
+                }),
+                headers: { 'Content-Type': 'application/json' },
+            }).then(res => res.json())
+                .then(json => console.log(json));
 
-            crawler();
-
-            fetch(url);
-
-            wakeUpDyno(url, interval);
+            wakeUpDyno(interval);
         }, milliseconds);
-
-
     } catch (error) {
         console.log(error);
     }
