@@ -25,6 +25,28 @@ module.exports = gql`
         likeCount: Int!
         commentCount: Int!
     }
+    type TableCaData {
+        dies: String!
+        province: String!
+        todayCa: String!
+        totalCa: String!
+    }
+    type contryTotal {
+        beingTreated: String!
+        die: String!
+        title: String!
+        treatment: String!
+    } 
+    type TotalCa {
+        vi: contryTotal
+        world: contryTotal
+    }
+    type Ca {
+        createdAt: String!
+        _id: ID!
+        totalCa: TotalCa!
+        tableData: [TableCaData!]
+    }
     type News {
         image: String!
         title: String!
@@ -60,6 +82,10 @@ module.exports = gql`
         detail: String!
         newId: String!
     }
+    input CaInput {
+        totalCa: String!
+        tableData: String!
+    }
     input PostParams {
         postId: String!
     }
@@ -73,6 +99,7 @@ module.exports = gql`
         getPosts: [Post]
         getPost(post: PostParams): Post
         getNews(pageIndex: String!): [News!]
+        getCa: Ca!
     }
     type Mutation {
         register(registerInput: RegisterInput): User
@@ -83,8 +110,10 @@ module.exports = gql`
         createComment(postId: String, body: String): Post
         deleteComment(postId: String, commentId: String): Post
         createNews(news: [NewsInput!]): ResponseDeletePost
+        createCa(caInput: CaInput!): ResponseDeletePost
     }
     type Subscription {
         newPost: [News!]
+        newCa: Ca!
     }
 `;

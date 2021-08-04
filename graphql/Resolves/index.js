@@ -2,6 +2,7 @@ const postResol = require('./posts');
 const userResol = require('./users');
 const commentResol = require('./comments');
 const newsResol = require('./news');
+const caResol = require('./infoCa');
 
 module.exports = {
     Post: {
@@ -10,15 +11,18 @@ module.exports = {
     },
     Query: {
         ...postResol.Query,
-        ...newsResol.Query
+        ...newsResol.Query,
+        ...caResol.Query
     },
     Mutation: {
         ...userResol.Mutation,
         ...postResol.Mutation,
         ...commentResol.Mutation,
         ...newsResol.Mutation,
+        ...caResol.Mutation
     },
     Subscription: {
-        ...newsResol.Subscription
+        ...newsResol.Subscription,
+        ...caResol.Subscription
     }
 }
