@@ -20,13 +20,14 @@ module.exports = {
     Mutation: {
         async createNews(_, { news }, context) {
             try {
-                if (news?.length <= 0) {
+                const parseNews = JSON.parse(news);
+                if (parseNews?.length <= 0) {
                     throw new UserInputError('News is empty!', {
                         news: 'News field is empty !'
                     })
                 };
 
-                await News.insertMany(news, (err, doc) => {
+                await News.insertMany(parseNews, (err, doc) => {
                     if (err) {
                         console.log(err);
                     } else {

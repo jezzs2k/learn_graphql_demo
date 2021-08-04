@@ -110,7 +110,7 @@ module.exports = gql`
         deletePost(postId: String): ResponseDeletePost
         createComment(postId: String, body: String): Post
         deleteComment(postId: String, commentId: String): Post
-        createNews(news: [NewsInput!]): ResponseDeletePost
+        createNews(news: String!): ResponseDeletePost
         createCa(caInput: CaInput!): ResponseDeletePost
     }
     type Subscription {
