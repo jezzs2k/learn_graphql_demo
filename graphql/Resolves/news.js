@@ -27,7 +27,9 @@ module.exports = {
                     })
                 };
 
-                await News.insertMany(parseNews, (err, doc) => {
+                const newsData = parseNews.map(item => ({ ...item, newId: item.id }));
+
+                await News.insertMany(newsData, (err, doc) => {
                     if (err) {
                         console.log(err);
                     } else {
