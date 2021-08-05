@@ -5,7 +5,7 @@ module.exports = {
     Query: {
         async getCa(_) {
             try {
-                const ca = await Ca.findOne().skip(0).limit(1);
+                const ca = await Ca.findOne().skip(0).limit(1).sort({ date: 'desc' });;
 
                 return {
                     ...ca,
