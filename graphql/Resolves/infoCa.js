@@ -5,7 +5,7 @@ module.exports = {
     Query: {
         async getCa(_) {
             try {
-                const ca = await Ca.findOne().sort({ date: 'desc' }).skip(0).limit(1);
+                const ca = await Ca.findOne({}, {}, { sort: { 'createdAt': -1 } }).limit(1);
 
                 return {
                     ...ca,

@@ -1,5 +1,6 @@
 const { UserInputError } = require('apollo-server');
 const News = require('../../models/News');
+const { ParseDate } = require('../../utils/ParseDateStringToTimp');
 
 module.exports = {
     Query: {
@@ -9,7 +10,7 @@ module.exports = {
 
                 const start = numPageIndex ? (numPageIndex - 1) * 20 : 0;
 
-                const news = await News.find().sort({ date: 'desc' }).skip(start).limit(20);
+                const news = await News.find({}, {}, { sort: { 'createdAt': -1, 'realTimeOfNews': -1 } }).skip(start).limit(20);
 
                 return news
             } catch (error) {
@@ -20,14 +21,35 @@ module.exports = {
     Mutation: {
         async createNews(_, { news }, context) {
             try {
-                const parseNews = JSON.parse(news);
+                let parseNews = JSON.parse(news);
                 if (parseNews?.length <= 0) {
                     throw new UserInputError('News is empty!', {
                         news: 'News field is empty !'
                     })
                 };
 
-                const newsData = parseNews.map(item => ({ ...item, newId: item.id }));
+                parseNews = parseNews.map(item => {
+                    return {
+                        ...item,
+                        realTimeOfNews: ParseDate(item.date)
+                    }
+                });
+
+                const getAllNews = await News.find({}, {}, { sort: { 'createdAt': -1 } }).limit(20);
+
+                const newsData = parseNews.filter((value) => {
+                    return getAllNews.findIndex(item => {
+                        return item.newId === value.newId
+                    }) === -1
+                })
+
+
+                if (newsData?.length <= 0) {
+                    throw new UserInputError('News is duplicated!', {
+                        news: 'News field is duplicates news in the database !'
+                    })
+                };
+
 
                 await News.insertMany(newsData, (err, doc) => {
                     if (err) {

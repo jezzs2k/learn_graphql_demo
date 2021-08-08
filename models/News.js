@@ -7,6 +7,7 @@ const newsShema = new Schema({
     content: String,
     detail: String,
     newId: String,
+    realTimeOfNews: Number,
 }, { timestamps: true });
 
 module.exports = model('news', newsShema);

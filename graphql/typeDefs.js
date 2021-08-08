@@ -55,6 +55,7 @@ module.exports = gql`
         detail: String!
         newId: String!
         createdAt: String!
+        realTimeOfNews: Float!
         _id: ID!
     }
     type User {
