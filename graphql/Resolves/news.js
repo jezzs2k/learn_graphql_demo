@@ -9,7 +9,7 @@ module.exports = {
 
                 const start = numPageIndex ? (numPageIndex - 1) * 20 : 0;
 
-                const news = await News.find().skip(start).limit(20).sort({ date: 'desc' });
+                const news = await News.find().sort({ date: 'desc' }).skip(start).limit(20);
 
                 return news
             } catch (error) {
