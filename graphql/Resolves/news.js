@@ -1,6 +1,10 @@
 const { UserInputError } = require('apollo-server');
 const News = require('../../models/News');
+const Devices = require('../../models/Devices');
 const { ParseDate } = require('../../utils/ParseDateStringToTimp');
+const { PushNotifier } = require('../../utils/PushNotification');
+
+const pushNotifier = new PushNotifier();
 
 module.exports = {
     Query: {
@@ -41,8 +45,7 @@ module.exports = {
                     return getAllNews.findIndex(item => {
                         return item.newId === value.newId
                     }) === -1
-                })
-
+                });
 
                 if (newsData?.length <= 0) {
                     throw new UserInputError('News is duplicated!', {
@@ -50,6 +53,12 @@ module.exports = {
                     })
                 };
 
+                const devices = await Devices.find();
+
+                if (devices.length > 0) {
+                    const deviceTokens = devices.map(item => item.deviceToken);
+                    pushNotifier.sendNotificationToDeviceIOS(deviceTokens, newsData[0]);
+                };
 
                 await News.insertMany(newsData, (err, doc) => {
                     if (err) {

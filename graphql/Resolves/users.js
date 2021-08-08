@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const Devices = require('../../models/Devices');
 const { UserInputError } = require('apollo-server');
 
 const { validateRegisterForm, validateLoginInput } = require('../../utils/validateRegisterForm');
@@ -16,6 +17,33 @@ function genarateToken(user) {
 
 module.exports = {
     Mutation: {
+        async registerDeviceToken(_, { deviceToken }) {
+            const devices = await Devices.find();
+
+            if (devices?.length <= 0) {
+                const newDeive = new Devices({
+                    deviceToken
+                });
+
+                await newDeive.save();
+
+                return { message: 'Write new device success' };
+            }
+
+            const deviceIndex = devices.findIndex(item => item.deviceToken === deviceToken);
+
+            if (deviceIndex === -1) {
+                const newDeive = new Devices({
+                    deviceToken
+                });
+
+                await newDeive.save();
+
+                return { message: 'Write new device success' }
+            } else {
+                return { message: 'DeviceToken is exists' }
+            }
+        },
         async login(_, { loginInput: { username, password } }) {
             //validate login inputs
             const { valid, errors } = validateLoginInput({ username, password });
