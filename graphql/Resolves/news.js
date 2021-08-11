@@ -14,7 +14,7 @@ module.exports = {
 
                 const start = numPageIndex ? (numPageIndex - 1) * 20 : 0;
 
-                const news = await News.find({}, {}, { sort: { 'createdAt': -1, 'realTimeOfNews': -1 } }).skip(start).limit(20);
+                const news = await News.find({}, {}, { sort: { 'realTimeOfNews': -1 } }).skip(start).limit(20);
 
                 return news
             } catch (error) {

@@ -36,6 +36,7 @@ module.exports = gql`
         die: String!
         title: String!
         treatment: String!
+        cured: String!
     } 
     type TotalCa {
         vi: contryTotal
