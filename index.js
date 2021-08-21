@@ -12,7 +12,7 @@ const wakeUpDyno = require('./wakeUpDyno');
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/Resolves');
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 
 const pubsub = new PubSub();
 

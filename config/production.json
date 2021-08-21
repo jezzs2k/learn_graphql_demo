@@ -1,7 +1,7 @@
 {
     "Customer": {
         "dbConfig": {
-            "mongoDB": "mongodb+srv://admin:admin@cluster0.igh9e.mongodb.net/grapql?retryWrites=true&w=majority"
+            "mongoDB": "mongodb://admin:admin@mongodb:27017/admin"
         },
         "secret": {
             "key": "This is the secret key"
