@@ -73,7 +73,7 @@ module.exports = {
                 })
             };
 
-            const likeIndex = post.likes?.findIndex(l => String(l.user) === String(user.id));
+            const likeIndex = post?.likes?.findIndex(l => String(l.user) === String(user.id));
 
             if (likeIndex === -1 || (!likeIndex && likeIndex !== 0)) {
                 post.likes.push({
