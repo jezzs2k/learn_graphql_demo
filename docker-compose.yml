@@ -7,6 +7,20 @@ services:
     depends_on: 
       - mongodb
     restart: unless-stopped
+  
+  crawler-news-covid-1:
+    image: crawler-news-covid-1:v1.0.3
+    ports: 
+      - "3000:3000"
+    restart: unless-stopped
+
+  crawler-news-covid-2:
+    image: crawler-news-covid-2:v1.0.5
+    depends_on: 
+      - crawler-news-covid
+    ports: 
+      - "3001:3001"
+    restart: unless-stopped
 
   mongodb:
     image: mongo:latest
