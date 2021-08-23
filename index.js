@@ -6,9 +6,6 @@ const config = require('config');
 //config
 const dbConfig = config.get('Customer.dbConfig');
 
-//DYNO_HEROKU
-// const wakeUpDyno = require('./wakeUpDyno');
-
 const typeDefs = require('./graphql/typeDefs');
 const resolvers = require('./graphql/Resolves');
 
@@ -50,6 +47,5 @@ mongoose.connect(dbConfig.mongoDB, {
     useNewUrlParser: true
 }).then(() => {
     console.log('MongoDB connected');
-    // wakeUpDyno(28)
     return server.listen(PORT);
 }).then((res) => console.log(`Server running at ${res.url}`));
