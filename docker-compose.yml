@@ -1,26 +1,38 @@
 version: "3.9" 
+networks: 
+  my-overlay-network:
+    external: true
+    driver: overlay
+    attachable: true
+
 services: 
   crawler-news-covid:
-    image: crawler-news-covid:v1.0.7
+    image: hieuopntechiz/crawler-news-covid:1.0.0
     ports: 
       - "5000:5000"
     depends_on: 
       - mongodb
     restart: unless-stopped
+    networks: 
+      - "my-overlay-network"
   
   crawler-news-covid-1:
-    image: crawler-news-covid-1:v1.0.7
+    image: hieuopntechiz/crawler-news-covid-1:1.0.0
     ports: 
       - "3000:3000"
     restart: unless-stopped
+    networks: 
+      - "my-overlay-network"
 
   crawler-news-covid-2:
-    image: crawler-news-covid-2:v1.0.7
+    image: hieuopntechiz/crawler-news-covid-2:1.0.0
     depends_on: 
       - crawler-news-covid
     ports: 
       - "3001:3001"
     restart: unless-stopped
+    networks: 
+      - "my-overlay-network"
 
   mongodb:
     image: mongo:latest
@@ -37,3 +49,14 @@ services:
       # named volumes
       - ./mongodb:/data/db
     restart: unless-stopped
+    networks: 
+      - "my-overlay-network"
+  adminer:
+    image: dockette/adminer:mongo
+    restart: always
+    depends_on: 
+      - mongodb
+    ports:
+      - 8000:80
+    networks: 
+      - "my-overlay-network"
